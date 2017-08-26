@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name>omniva- lpexpress shipping Tool (V3.16) for OpenCart 3.x</name>
+	<code>omniva- lpexpress shipping Tool (V3.16) for OpenCart 3.x</code>
+	<version>3.x-3.16</version>
+	<author>mhccorp.com</author>
+	<link>https://e-tools.lt</link>
+	<file path="admin/controller/checkout/shipping_method.php">
+		<operation>
+			<search><![CDATA[$this->response->addHeader('Content-Type: application/json');]]></search>
+			<add position="before"><![CDATA[
+		//checks selected method
+		if (isset($this->request->post['terminal'])) {// && $shipping[0] == 'omniva') {
+
+					$omnivaArr = explode('|', $this->request->post['terminal']);
+
+					// addition from select input
+
+					$this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]]['title'] = ' Post terminal: '.$omnivaArr[1];
+
+					$this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
+		
+		} 
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/theme/default/template/checkout/checkout.twig">
+		<operation>
+			<search><![CDATA[ data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea'), ]]></search>
+			<add position="replace"><![CDATA[
+ data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method input[type=\'radio\']:checked + select,  #collapse-shipping-method textarea'), 
+			]]></add>
+		</operation>
+	</file>
+</modification>
